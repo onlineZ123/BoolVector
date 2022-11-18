@@ -3,11 +3,66 @@
 
 #include <iostream>
 #include <vector>
+#include <stdarg.h>
+
+#include "BoolVector.h"
+
+int test1(const int length = 100, const int offset = 1)
+{
+	using std::cout;
+	using std::endl;
+	
+
+	BoolVector vector1(length, 1);
+	BoolVector vector2(length, 1);
+	for (int i = 0; i <= length; i += offset) {
+		vector1 = (vector2 << i);
+		cout << vector1 << endl;
+	}
+
+	for (int i = 0; i <= length; i += offset) {
+		vector1 = (vector2 >> i);
+		cout << vector1 << endl;
+	}
+
+	return 1;
+}
+
 
 int main()
 {
-    std::vector<bool> bvec = { 1, 0, 0 };
-    for (int i = 0; i < bvec.size(); ++i) std::cout << bvec[i];
+	for (int offset = 1; offset < 10; offset += 2) {
+		test1(100, offset);
+		std::cout << std::endl;
+		std::cout << std::endl;
+		std::cout << std::endl;
+	}
+	return 1;
+
+	BoolVector bov("010111");
+	std::cout << bov << std::endl;
+	for (size_t i = 0; i < 50; i++)
+	{
+		std::cout << i << ")\t" << (bov << i) << std::endl;
+	}
+	
+	BoolVector bv(10);
+	std::cin >> bv;
+	std::cout << bv;
+	return 0;
+	//const char* a = "John";
+	//BoolVector bvec("102");
+
+	BoolVector b(5, true);
+	b[2] = 1;
+	std::cout << "weight: " << b.weight() << std::endl;
+
+	for (int i = 4; i >= 0; --i)
+	{
+		std::cout << (b[i] & 1) << " ";
+	}
+
+	return 0;
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
