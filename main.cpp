@@ -7,11 +7,10 @@
 
 #include "BoolVector.h"
 
-int test1(const int length = 100, const int offset = 1)
+int _testShift(const int length = 100, const int offset = 1)
 {
 	using std::cout;
 	using std::endl;
-	
 
 	BoolVector vector1(length, 1);
 	BoolVector vector2(length, 1);
@@ -28,15 +27,32 @@ int test1(const int length = 100, const int offset = 1)
 	return 1;
 }
 
-
-int main()
+void testShift()
 {
 	for (int offset = 1; offset < 10; offset += 2) {
-		test1(100, offset);
+		_testShift(100, offset);
 		std::cout << std::endl;
 		std::cout << std::endl;
 		std::cout << std::endl;
 	}
+}
+
+int testSetBit()
+{
+	BoolVector vector(100, 1);
+	for (int i = 0; i < 100; i++)
+	{
+		vector.setBit(0, 99 - i, 1);
+		std::cout << i << "\t";
+		std::cout << vector << std::endl;
+		vector.set(1);
+	}
+	return 1;
+}
+
+int main()
+{
+	testSetBit();
 	return 1;
 
 	BoolVector bov("010111");

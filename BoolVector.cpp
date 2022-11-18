@@ -114,19 +114,64 @@ void BoolVector::setBit(const int value, const int bitPosition)
     operator[](bitPosition) = (bool)value;
 }
 
-void BoolVector::setBit(const bool value, const int startFrom, const int count)
+void BoolVector::setBit(const bool value, const int startFrom, int count)
 {
-    if (startFrom >= m_size || startFrom < 0 || startFrom + count >= m_size)
+    if (startFrom >= m_size || startFrom < 0 || startFrom + count > m_size)
     {
         throw std::out_of_range("index out of memory");
     }
+    else if (count == 0)
+    {
+        return;
+    }
 
-    unsigned char mask = 1 << (8 - startFrom % 8);
+    unsigned char mask = ~0;
+    mask <<= startFrom % 8;
+
+    if (startFrom / 8 == ((startFrom + count) / 8))
+    {
+        unsigned char otherMask = ~0;
+        otherMask >>= (8 - (count + startFrom) % 8);
+        mask &= otherMask;
+        if (value)
+        {
+            m_data[startFrom / 8] |= mask;
+        }
+        else
+        {
+            mask = ~mask;
+            m_data[startFrom / 8] &= mask;
+        }
+    }
+    else
+    {
         unsigned char byteVal = 0;
         if (value)
         {
+            m_data[startFrom / 8] |= mask;
+
+            mask = ~0;
+            mask >>= (8 - (count + startFrom) % 8);
+            m_data[(startFrom + count) / 8] |= mask;
             byteVal = ~byteVal;
         }
+        else
+        {
+            mask = ~mask;
+            m_data[startFrom / 8] &= mask;
+
+            mask = ~0;
+            mask <<= (count + startFrom) % 8;
+            m_data[(startFrom + count) / 8] &= mask;
+        }
+
+        for (int i = startFrom / 8 + 1; i < (startFrom + count) / 8; ++i)
+        {
+            m_data[i] = byteVal;
+        }
+    }
+
+    
 }
 
 void BoolVector::set(const bool var)
