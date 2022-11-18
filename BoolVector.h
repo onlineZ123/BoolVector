@@ -24,7 +24,7 @@ public:
 	void inverse();					   // inverses whole boolean vector
 	void inverse(const int bitPosition); // inverse certain bit
 	void setBit(const int value, const int bitPosition);  // set a certain bit
-	void setBit(const bool value, const int startFrom, const int count);	   // setting collection of bit
+	void setBit(const bool value, const int startFrom, int count);	   // setting collection of bit
 	void set(const bool var);
 	int getSize() const { return m_size; }
 	int getCapacity() const { return m_capacity; }
