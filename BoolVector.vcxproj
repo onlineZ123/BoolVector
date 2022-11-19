@@ -139,11 +139,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BoolMatrix.cpp" />
     <ClCompile Include="BoolRank.cpp" />
     <ClCompile Include="BoolVector.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BoolMatrix.h" />
     <ClInclude Include="BoolRank.h" />
     <ClInclude Include="BoolVector.h" />
   </ItemGroup>

@@ -24,12 +24,18 @@
     <ClCompile Include="BoolRank.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="BoolMatrix.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BoolVector.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="BoolRank.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BoolMatrix.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
