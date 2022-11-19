@@ -257,6 +257,10 @@ BoolVector& BoolVector::operator&=(const BoolVector& other)
     if (m_capacity > other.m_capacity)
     {
         minCap = other.m_capacity;
+        for (int i = minCap; i < m_capacity; i++)
+        {
+            m_data[i] = 0;
+        }
     }
 
     for (int i = 0; i < minCap - 1; ++i)
@@ -264,11 +268,12 @@ BoolVector& BoolVector::operator&=(const BoolVector& other)
         m_data[i] &= other.m_data[i];
     }
 
+    int minSize = m_size > other.m_size ? other.m_size : m_size;
     unsigned char mask = ~0;
-    mask <<= other.m_size % 8;
-    unsigned char saveBytes = m_data[minCap - 1] & mask;
+    mask >>= 8 - minSize % 8;
     m_data[minCap - 1] &= other.m_data[minCap - 1];
-    m_data[minCap - 1] |= saveBytes;
+    m_data[minCap - 1] &= mask;
+   
     return *this;
 }
 

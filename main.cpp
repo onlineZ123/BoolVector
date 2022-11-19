@@ -4,6 +4,7 @@
 #include <iostream>
 
 #include "BoolVector.h"
+#include "BoolMatrix.h"
 
 int _testShift(const int length = 100, const int offset = 1)
 {
@@ -50,8 +51,8 @@ int testSetBit()
 
 void testConjuction()
 {
-	BoolVector vector2("100101010101001");
-	BoolVector vector1			("01001");
+	BoolVector vector1("100101010101001");
+	BoolVector vector2		  ("1101001");
 
 	vector1 &= vector2;
 	std::cout << vector1 << " " << vector1.getByte(0);
@@ -70,7 +71,10 @@ void testDisjuction()
 
 int main()
 {
-
+	//testConjuction();
+	//return 0;
+	BoolMatrix matr(2, 2, 0);
+	std::cout << matr;
 	return 0;
 }
 
