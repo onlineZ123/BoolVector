@@ -1,7 +1,7 @@
 #include "BoolVector.h"
 
 
-BoolVector::BoolVector() : m_data(new unsigned char[1]), m_size(0), m_capacity(1)
+BoolVector::BoolVector() : m_data(new unsigned char[1]), m_size(8), m_capacity(1)
 {
     m_data[0] = 0;
 }
@@ -253,31 +253,66 @@ const BoolRank BoolVector::operator[](const int bitPosition) const
 
 BoolVector& BoolVector::operator&=(const BoolVector& other)
 {
-    int minCapacity = m_capacity < other.m_capacity ? other.m_capacity : m_capacity;
-    for (int i = 0; i < minCapacity; ++i)
+    int minCap = m_capacity;
+    if (m_capacity > other.m_capacity)
+    {
+        minCap = other.m_capacity;
+    }
+
+    for (int i = 0; i < minCap - 1; ++i)
     {
         m_data[i] &= other.m_data[i];
     }
+
+    unsigned char mask = ~0;
+    mask <<= other.m_size % 8;
+    unsigned char saveBytes = m_data[minCap - 1] & mask;
+    m_data[minCap - 1] &= other.m_data[minCap - 1];
+    m_data[minCap - 1] |= saveBytes;
     return *this;
 }
 
 BoolVector& BoolVector::operator|=(const BoolVector& other)
 {
-    int minCapacity = m_capacity < other.m_capacity ? other.m_capacity : m_capacity;
+    int minCapacity = m_capacity;
+    int minSize = m_size;
+    unsigned char mask = ~0;
+    mask >>= 8 - minSize % 8;
+
+    if (m_capacity > other.m_capacity)
+    {
+        minCapacity = other.m_capacity;
+        mask = ~0;
+    }
+
     for (int i = 0; i < minCapacity; ++i)
     {
         m_data[i] |= other.m_data[i];
     }
+  
+    m_data[minCapacity - 1] &= mask;
     return *this;
 }
 
 BoolVector& BoolVector::operator^=(const BoolVector& other)
 {
-    int minCapacity = m_capacity < other.m_capacity ? other.m_capacity : m_capacity;
-    for (int i = 0; i < minCapacity; ++i)
+    int minCapacity = m_capacity;
+    int minSize = m_size;
+
+    if (m_capacity > other.m_capacity)
+    {
+        minCapacity = other.m_capacity;
+        minSize = other.m_size;
+    }
+    for (int i = 0; i < minCapacity - 1; ++i)
     {
         m_data[i] ^= other.m_data[i];
     }
+
+    unsigned char mask = ~0;
+    mask >>= 8 - minSize % 8;
+    unsigned char saveByte = other.m_data[minCapacity - 1] & mask;
+    m_data[minCapacity - 1] ^= saveByte;
     return *this;
 }
 

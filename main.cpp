@@ -2,8 +2,6 @@
 //
 
 #include <iostream>
-#include <vector>
-#include <stdarg.h>
 
 #include "BoolVector.h"
 
@@ -50,33 +48,28 @@ int testSetBit()
 	return 1;
 }
 
+void testConjuction()
+{
+	BoolVector vector2("100101010101001");
+	BoolVector vector1			("01001");
+
+	vector1 &= vector2;
+	std::cout << vector1 << " " << vector1.getByte(0);
+	return;
+}
+
+void testDisjuction()
+{
+	BoolVector vector1("000101010101001");
+	BoolVector vector2("10110");
+
+	vector1 ^= vector2;
+	std::cout << vector1 << " " << vector1.getByte(1);
+	return;
+}
+
 int main()
 {
-	testSetBit();
-	return 1;
-
-	BoolVector bov("010111");
-	std::cout << bov << std::endl;
-	for (size_t i = 0; i < 50; i++)
-	{
-		std::cout << i << ")\t" << (bov << i) << std::endl;
-	}
-	
-	BoolVector bv(10);
-	std::cin >> bv;
-	std::cout << bv;
-	return 0;
-	//const char* a = "John";
-	//BoolVector bvec("102");
-
-	BoolVector b(5, true);
-	b[2] = 1;
-	std::cout << "weight: " << b.weight() << std::endl;
-
-	for (int i = 4; i >= 0; --i)
-	{
-		std::cout << (b[i] & 1) << " ";
-	}
 
 	return 0;
 }
