@@ -17,6 +17,7 @@ public:
 	explicit BoolVector(const int size);
 	explicit BoolVector(const int size, const bool var);
 	explicit BoolVector(const char* boolArr);
+	BoolVector(const char* boolArr, const int size);
 	BoolVector(const BoolVector& other);
 	~BoolVector() { delete[] m_data; }
 

@@ -82,6 +82,38 @@ BoolVector::BoolVector(const char* boolArr)
     }
 }
 
+BoolVector::BoolVector(const char* boolArr, const int size)
+{
+    m_size = size;
+    m_capacity = (m_size % 8 == 0) ? m_size / 8 : m_size / 8 + 1;
+    m_data = new unsigned char[m_capacity];
+
+    for (int i = 0; i < m_capacity; ++i)
+    {
+        m_data[i] = 0;
+    }
+
+    int strSize = (int)strlen(boolArr);
+    for (int i = 0; i < m_size && i < strSize; ++i)
+    {
+        try
+        {
+            if (convertToBool(boolArr[i]))
+            {
+                setBit(1, i);
+            }
+            else
+            {
+                setBit(0, i);
+            }
+        }
+        catch (const std::string& str)
+        {
+            std::cout << str;
+        }
+    }
+}
+
 void BoolVector::inverse()
 {
     for (int i = 0; i < m_capacity; ++i)
