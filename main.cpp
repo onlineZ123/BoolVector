@@ -80,6 +80,8 @@ int main()
 	const char* arr[] = { "01010010", "00000111111", "001100110011" };
 	BoolMatrix m(arr, 3, 8);
 	std::cout << m;
+	std::cin >> m;
+	std::cout << m;
 	return 0;
 }
 
