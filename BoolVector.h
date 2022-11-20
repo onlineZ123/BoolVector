@@ -21,7 +21,6 @@ public:
 	BoolVector(const BoolVector& other);
 	~BoolVector() { delete[] m_data; }
 
-	int getByte(int byte) { return m_data[byte]; }
 	void inverse();					   // inverses whole boolean vector
 	void inverse(const int bitPosition); // inverse certain bit
 	void inverse(const int bitPosition, const int count);
@@ -30,6 +29,7 @@ public:
 	void set(const bool var);
 	int getSize() const { return m_size; }
 	int getCapacity() const { return m_capacity; }
+	int getByte(int byte) { return m_data[byte]; }
 	int weight() const;
 	
 	BoolVector operator=(const BoolVector& other); 
@@ -63,17 +63,10 @@ inline std::ostream& operator<<(std::ostream& stream, const BoolVector& bvec)
 
 inline std::istream& operator>>(std::istream& stream, BoolVector& bvec)
 {
+	char* str = new char[(bvec.m_size + 1)];
 	bvec.m_data[bvec.m_capacity - 1] = 0;
-	try {
-		for (int i = 0; i < bvec.m_size; i++)
-		{
-			stream >> bvec[i];
-		}
-	}
-	catch (const std::string erMessage)
-	{
-		std::cout << erMessage;
-	}
+	stream >> str;
+	bvec = BoolVector(str, bvec.m_size);
+
 	return stream;
 }
-

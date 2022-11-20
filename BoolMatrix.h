@@ -50,3 +50,18 @@ inline std::ostream& operator<<(std::ostream& stream, const BoolMatrix& bMatr)
 	}
 	return stream;
 }
+
+inline std::istream& operator>>(std::istream& stream, const BoolMatrix& bMatr)
+{
+	for (int i = 0; i < bMatr.m_row; ++i)
+	{
+		try {
+			stream >> bMatr.m_matr[i];
+		}
+		catch (...)
+		{
+			std::cout << "111";
+		}
+	}
+	return stream;
+}
