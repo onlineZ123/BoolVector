@@ -5,7 +5,6 @@ class BoolRank
 {
 private:
 	//friend std::ostream& operator<<(std::ostream& out, const BoolRank& bRank);
-	//friend std::istream& operator>>(std::istream& stream, const BoolRank& bRank);
 public:
 	BoolRank(unsigned char& element, const int bitPos) : m_element(element) 
 	{
@@ -25,10 +24,10 @@ public:
 	BoolRank& operator|=(const int val);
 	BoolRank& operator^=(const int val);
 
-	//int operator&(const int val) const;
-	//int operator|(const int val) const;
-	//int operator^(const int val) const;
-	//int operator~() const;
+	int operator&(const bool val) const;
+	int operator|(const bool val) const;
+	int operator^(const bool val) const;
+	int operator~() const;
 
 	bool operator==(const int value) const;
 	bool operator!=(const int value) const;
@@ -58,19 +57,4 @@ inline std::ostream& operator<<(std::ostream& out, const BoolRank& bRank)
 {
 	out << (bool)bRank;
 	return out;
-}
-
-inline std::istream& operator>>(std::istream& stream, BoolRank bRank)
-{
-	int val;
-	stream >> val;
-	if (val >= 0 && val <= 1)
-	{
-		bRank = (bool)val;
-	}
-	else
-	{
-		throw std::string("Wrong console input");
-	}
-	return stream;
 }

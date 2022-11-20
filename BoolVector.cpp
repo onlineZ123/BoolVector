@@ -82,6 +82,38 @@ BoolVector::BoolVector(const char* boolArr)
     }
 }
 
+BoolVector::BoolVector(const char* boolArr, const int size)
+{
+    m_size = size;
+    m_capacity = (m_size % 8 == 0) ? m_size / 8 : m_size / 8 + 1;
+    m_data = new unsigned char[m_capacity];
+
+    for (int i = 0; i < m_capacity; ++i)
+    {
+        m_data[i] = 0;
+    }
+
+    int strSize = (int)strlen(boolArr);
+    for (int i = 0; i < m_size && i < strSize; ++i)
+    {
+        try
+        {
+            if (convertToBool(boolArr[i]))
+            {
+                setBit(1, i);
+            }
+            else
+            {
+                setBit(0, i);
+            }
+        }
+        catch (const std::string& str)
+        {
+            std::cout << str;
+        }
+    }
+}
+
 void BoolVector::inverse()
 {
     for (int i = 0; i < m_capacity; ++i)
@@ -106,6 +138,43 @@ void BoolVector::inverse(const int bitPosition)
     else
     {
         m_data[bytePosition] &= (~mask);
+    }
+}
+
+void BoolVector::inverse(const int startFrom, const int count)
+{
+    if (startFrom >= m_size || startFrom < 0 || startFrom + count > m_size)
+    {
+        throw std::out_of_range("index out of memory");
+    }
+    else if (count == 0)
+    {
+        return;
+    }
+
+    unsigned char mask = ~0;
+    mask <<= startFrom % 8;
+
+    if (startFrom / 8 == ((startFrom + count) / 8))
+    {
+        unsigned char otherMask = ~0;
+        otherMask >>= 8 - (startFrom + count) % 8;
+
+        mask &= otherMask;
+        m_data[startFrom / 8] ^= mask;
+    }
+    else
+    {
+        m_data[startFrom / 8] ^= mask;
+
+        mask = ~0;
+        mask >>= 8 - (startFrom + count) % 8;
+        m_data[(startFrom + count) / 8] ^= mask;
+
+        for (int i = startFrom / 8 + 1; i < (startFrom + count) / 8; ++i)
+        {
+            m_data[i] = ~m_data[i];
+        }
     }
 }
 
@@ -257,6 +326,10 @@ BoolVector& BoolVector::operator&=(const BoolVector& other)
     if (m_capacity > other.m_capacity)
     {
         minCap = other.m_capacity;
+        for (int i = minCap; i < m_capacity; i++)
+        {
+            m_data[i] = 0;
+        }
     }
 
     for (int i = 0; i < minCap - 1; ++i)
@@ -264,11 +337,12 @@ BoolVector& BoolVector::operator&=(const BoolVector& other)
         m_data[i] &= other.m_data[i];
     }
 
+    int minSize = m_size > other.m_size ? other.m_size : m_size;
     unsigned char mask = ~0;
-    mask <<= other.m_size % 8;
-    unsigned char saveBytes = m_data[minCap - 1] & mask;
+    mask >>= 8 - minSize % 8;
     m_data[minCap - 1] &= other.m_data[minCap - 1];
-    m_data[minCap - 1] |= saveBytes;
+    m_data[minCap - 1] &= mask;
+   
     return *this;
 }
 

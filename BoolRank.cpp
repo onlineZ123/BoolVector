@@ -37,54 +37,48 @@ BoolRank& BoolRank::operator^=(const int val)
 
 	return *this;
 }
-/*
-TODO: BoolRank -> int
-BoolRank BoolRank::operator&(const int val) const 
-{
-	unsigned char elem	= m_element;
-	int bitPos			= m_bitPos;
-	BoolRank concatination(elem, bitPos);
-	concatination &= val;
-	return concatination;
-}
 
-BoolRank BoolRank::operator|(const int val) const
-{
-	unsigned char elem	= m_element;
-	int bitPos			= m_bitPos;
-	BoolRank disjuction(elem, bitPos);
-	disjuction |= val;
-	return disjuction;
-}
-
-BoolRank BoolRank::operator^(const int val) const
-{
-	unsigned char elem	= m_element;
-	int bitPos			= m_bitPos;
-	BoolRank XOR(elem, bitPos);
-	XOR ^= val;
-	return XOR;
-}
-
-BoolRank BoolRank::operator~() const
-{
-	unsigned char elem	= m_element;
-	int bitPos			= m_bitPos;
-	BoolRank NOT(elem, bitPos);
+int BoolRank::operator&(const bool val) const 
+{	
 	unsigned char mask = 1 << m_bitPos;
-
-	if (NOT.checkBit())
+	if (m_element & mask)
 	{
-		NOT.m_element &= (~mask);
+		return val;
 	}
-	else
-	{
-		NOT.m_element |= mask;
-	}
-
-	return NOT;
+	return 0;
 }
-*/
+
+int BoolRank::operator|(const bool val) const
+{
+	unsigned char mask = 1 << m_bitPos;
+	if (m_element & mask)
+	{
+		return 1;
+	}
+	return val;
+}
+
+int BoolRank::operator^(const bool val) const
+{
+	unsigned char mask = 1 << m_bitPos;
+	if (m_element & mask)
+	{
+		return !val;
+	}
+	return val;
+}
+
+int BoolRank::operator~() const
+{
+	unsigned char mask = 1 << m_bitPos;
+	if (m_element & mask)
+	{
+		return 0;
+	}
+	return 1;
+}
+
+
 bool BoolRank::operator==(const int value) const
 {
 	if ((bool)this->value() == (bool)value)
