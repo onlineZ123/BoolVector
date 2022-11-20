@@ -23,6 +23,7 @@ public:
 	int getByte(int byte) { return m_data[byte]; }
 	void inverse();					   // inverses whole boolean vector
 	void inverse(const int bitPosition); // inverse certain bit
+	void inverse(const int bitPosition, const int count);
 	void setBit(const int value, const int bitPosition);  // set a certain bit
 	void setBit(const bool value, const int startFrom, int count);	   // setting collection of bit
 	void set(const bool var);
