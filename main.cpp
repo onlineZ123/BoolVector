@@ -73,8 +73,13 @@ int main()
 {
 	//testConjuction();
 	//return 0;
-	BoolMatrix matr(2, 2, 0);
-	std::cout << matr;
+	BoolMatrix matr(10, 10, 0);
+	matr.inverse(0, 0, 9);
+	//std::cout << matr;
+
+	const char* arr[] = { "01010010", "00000111111", "001100110011" };
+	BoolMatrix m(arr, 3, 8);
+	std::cout << m;
 	return 0;
 }
 
