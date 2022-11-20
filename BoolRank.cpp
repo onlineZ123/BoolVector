@@ -37,32 +37,47 @@ BoolRank& BoolRank::operator^=(const int val)
 
 	return *this;
 }
-/*
-TODO: BoolRank -> int
-int BoolRank::operator&(const int val) const 
+
+int BoolRank::operator&(const bool val) const 
 {	
-	return concatination;
+	unsigned char mask = 1 << m_bitPos;
+	if (m_element & mask)
+	{
+		return val;
+	}
+	return 0;
 }
 
-int BoolRank::operator|(const int val) const
+int BoolRank::operator|(const bool val) const
 {
-	
-	disjuction |= val;
-	return disjuction;
+	unsigned char mask = 1 << m_bitPos;
+	if (m_element & mask)
+	{
+		return 1;
+	}
+	return val;
 }
 
-int BoolRank::operator^(const int val) const
+int BoolRank::operator^(const bool val) const
 {
-	
-	XOR ^= val;
-	return XOR;
+	unsigned char mask = 1 << m_bitPos;
+	if (m_element & mask)
+	{
+		return !val;
+	}
+	return val;
 }
 
 int BoolRank::operator~() const
 {
-	return NOT;
+	unsigned char mask = 1 << m_bitPos;
+	if (m_element & mask)
+	{
+		return 0;
+	}
+	return 1;
 }
-*/
+
 
 bool BoolRank::operator==(const int value) const
 {
