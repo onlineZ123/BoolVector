@@ -23,9 +23,21 @@ BoolMatrix::BoolMatrix(const int row, const int column, const bool value)
 	}
 }
 
-BoolMatrix::BoolMatrix(const char** str)
+BoolMatrix::BoolMatrix(const char** str, const int row, const int column)
 {
-	//TODO: char** constructor
+	m_row = row;
+	m_column = column;
+	m_matr = new BoolVector[m_row];
+
+	for (int i = 0; i < m_row; ++i)
+	{
+		m_matr[i].set(0);
+	}
+
+	for (int i = 0; i < row; ++i)
+	{
+		m_matr[i] = BoolVector(str[i], m_column);
+	}
 }
 
 BoolMatrix::BoolMatrix(const BoolMatrix& other)
@@ -87,16 +99,37 @@ BoolVector BoolMatrix::conjunction() const
 
 void BoolMatrix::inverse(const int row, const int bitPos)
 {
+	if (row < 0 || row >= m_row)
+	{
+		throw std::out_of_range("out of memory block");
+	}
 	m_matr[row].inverse(bitPos);
+}
+
+void BoolMatrix::inverse(const int row, const int bitPos, const int count)
+{
+	if (row < 0 || row >= m_row || bitPos < 0 || bitPos >= m_column)
+	{
+		throw std::out_of_range("out of memory block");
+	}
+	m_matr[row].inverse(bitPos, count);
 }
 
 void BoolMatrix::set(const bool value, const int row, const int bitPos)
 {
+	if (row < 0 || row >= m_row || bitPos < 0 || bitPos >= m_column)
+	{
+		throw std::out_of_range("out of memory block");
+	}
 	m_matr[row].setBit(value, bitPos);
 }
 
 void BoolMatrix::set(const bool value, const int row, const int bitPos, const int count)
 {
+	if (row < 0 || row >= m_row || bitPos < 0 || bitPos >= m_column)
+	{
+		throw std::out_of_range("out of memory block");
+	}
 	m_matr[row].setBit(value, bitPos, count);
 }
 

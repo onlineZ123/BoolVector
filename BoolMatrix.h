@@ -10,7 +10,7 @@ private:
 public:
 	BoolMatrix();
 	BoolMatrix(const int row, const int column, const bool value);
-	BoolMatrix(const char** str);
+	BoolMatrix(const char** str, const int row, const int column);
 	BoolMatrix(const BoolMatrix& other);
 	~BoolMatrix();
 
